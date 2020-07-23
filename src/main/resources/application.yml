@@ -1,0 +1,41 @@
+#server-configuration
+server:
+    port: 9191
+
+#datasource configuration
+spring:
+    datasource:
+        driver-class-name: oracle.jdbc.driver.OracleDriver
+        url: jdbc:oracle:thin:@localhost:1521:orcl
+        username: RIKHI
+        password: RIKHI
+    jpa:
+        properties:
+            hibernate:
+                show_sql: true
+                format_sql: true
+        hibernate:
+            ddl-auto: update
+    #h2-console-configuration
+
+    #viewresolver configuration
+    mvc:
+        view:
+            prefix: /WEB-INF/views/
+            suffix: .jsp
+
+#Email Configurations
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: jythonr@gmail.com
+        password: dale_carnegie_4
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    connectiontimeout: 5000
+                    timeout: 5000
+                    writetimeout: 5000
+                    starttls:
+                        enable: true
