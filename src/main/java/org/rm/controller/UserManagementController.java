@@ -33,11 +33,10 @@ public class UserManagementController {
     @RequestMapping(value = "/saveUserDetails",method = RequestMethod.POST)
     public String handleSubmitButton(@ModelAttribute("userAcc") UserAccount userAccount, Model model){
         boolean isSaved = userService.saveUser(userAccount);
-        if (isSaved){
-        }else {
-            model.addAttribute("errMsg","User not registered!!!");
+        if(isSaved){
+            return "redirect:/registered";
         }
-        return "redirect:/registered";
+        return "errorPage";
     }
 
     @RequestMapping(value = "/registered")
@@ -46,15 +45,6 @@ public class UserManagementController {
         return "successRegistered";
     }
 
-    /**
-     *This controller method handle coming request for unlock account
-     */
-
-    @RequestMapping(value = "/unlockAcc")
-    public String unlockAccount(@RequestParam("email") String email, Model model){
-
-        return "unlockAccount";
-    }
     @RequestMapping(value = "/getStates")
     @ResponseBody
     public  Map<Integer,String> getStatesBhCountry(@RequestParam("countryId") Integer cid){
