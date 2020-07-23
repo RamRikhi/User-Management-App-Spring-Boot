@@ -42,7 +42,7 @@ public class UserManagementController {
 
     @RequestMapping(value = "/registered")
     public String successSavedUser(Model model){
-        model.addAttribute("succMsg","Your registration almost done!!!<br><br>Please check your email and verify your account.");
+        model.addAttribute("succMsg","Thank you for registration!!!<br><br>Please check your email and verify your account.");
         return "successRegistered";
     }
 
