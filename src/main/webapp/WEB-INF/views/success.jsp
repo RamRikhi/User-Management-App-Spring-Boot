@@ -12,8 +12,7 @@
 </head>
 <body>
 <div>
-    <h1 style="color: black">${succMsg}</h1>
-    <h1 style="color: red">${errMsg}</h1>
+    <h1 style="color: green;text-align: center;font-family: Consolas">${succMsg}</h1>
 </div>
 <a href="loadForm">Go Back</a>
 </body>

@@ -11,4 +11,7 @@ public interface UserManagementService {
     Map<Integer,String> getStatesByCountryId(Integer countryId);
     Map<Integer,String> getCitiesByStateId(Integer stateId);
     boolean saveUser(UserAccount user);
+    UserAccount isTempPwdValid(String email,String pazzword);
+    boolean updateUserAccount(UserAccount userAccount);
+    String findByEmail(String email);
 }

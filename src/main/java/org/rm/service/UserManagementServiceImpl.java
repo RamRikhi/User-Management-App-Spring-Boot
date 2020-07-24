@@ -103,4 +103,36 @@ public class UserManagementServiceImpl implements UserManagementService{
         }
         return false;
     }
+
+    @Override
+    public UserAccount isTempPwdValid(String email, String pazzword) {
+        UserAccountEntity userAccEntity = userRepo.findByUserEmailAndUserPwd(email, pazzword);
+        UserAccount userAccount = null;
+        if(userAccEntity != null){
+            userAccount = new UserAccount();
+            BeanUtils.copyProperties(userAccEntity,userAccount);
+        }
+        return userAccount;
+    }
+
+    @Override
+    public boolean updateUserAccount(UserAccount userAccount) {
+        UserAccountEntity userEntity = new UserAccountEntity();
+
+        BeanUtils.copyProperties(userAccount,userEntity);
+
+        UserAccountEntity savedEntity = userRepo.save(userEntity);
+        return savedEntity != null;
+    }
+
+    @Override
+    public String findByEmail(String email) {
+        UserAccountEntity uniqueEmailCheck = userRepo.findByUserEmail(email);
+        if(uniqueEmailCheck != null){
+            return "Duplicate";
+        }
+        return "Unique";
+    }
+
+
 }

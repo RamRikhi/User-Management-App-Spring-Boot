@@ -11,6 +11,6 @@
     <title>Error | Page</title>
 </head>
 <body>
-    <h1>Failed to registered</h1>
+    <h1 style="text-align: center;color: red;font-family: Consolas;">${errMsg}</h1>
 </body>
 </html>

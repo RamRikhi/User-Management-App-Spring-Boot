@@ -36,19 +36,32 @@ public class UserManagementController {
         if(isSaved){
             return "redirect:/registered";
         }
+        model.addAttribute("errMsg","Failed to registered please try again...We are regret for the problem...");
         return "errorPage";
     }
 
     @RequestMapping(value = "/registered")
     public String successSavedUser(Model model){
         model.addAttribute("succMsg","Thank you for registration!!!<br><br>Please check your email and verify your account.");
-        return "successRegistered";
+        return "success";
     }
 
     @RequestMapping(value = "/getStates")
     @ResponseBody
-    public  Map<Integer,String> getStatesBhCountry(@RequestParam("countryId") Integer cid){
+    public Map<Integer,String> getStatesByCountryId(@RequestParam("cid") Integer cid){
         return userService.getStatesByCountryId(cid);
+    }
+
+    @RequestMapping(value = "/getCities")
+    @ResponseBody
+    public Map<Integer,String> getCitiesByStateId(@RequestParam("sid") Integer sid){
+        return userService.getCitiesByStateId(sid);
+    }
+
+    @RequestMapping(value = "/validateEmail")
+    @ResponseBody
+    public String validateEmail(@RequestParam("email") String email){
+        return userService.findByEmail(email);
     }
 
 }

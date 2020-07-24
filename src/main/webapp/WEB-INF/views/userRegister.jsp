@@ -11,6 +11,7 @@
 <html>
 <head>
     <title>Register</title>
+    <script src="./js/app.js" language="JavaScript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" language="JavaScript"></script>
     <style>
         body{
@@ -22,37 +23,8 @@
     </style>
 </head>
 <body>
-<%--<!--Nav Bar-->
-<nav class="navbar navbar-expand-lg navbar-light bg-primary">
-    <a class="navbar-brand" style="color: aliceblue" href="#">Ram Liles</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-            </li>
-        </ul>
-    </div>
-</nav>--%>
-
     <div class="container ">
         <h1  style="text-align: center;font-family: Consolas;margin-top: 30px;color: aliceblue">Ram-Liles Company</h1>
-    </div>
-
-    <div>
-        <h4 style="color: greenyellow">${succMsg}</h4>
-        <h4 style="color: red">${errMsg}</h4>
     </div>
     <form:form modelAttribute="userAcc" method="post" action="saveUserDetails">
         <table>
@@ -73,6 +45,7 @@
                 <td>
                     <form:input path="userEmail"/>
                 </td>
+                <td><span id="dupEmail" style="font-family: 'Arial Black';color: red"></span></td>
             </tr>
             <tr>
                 <td><label style="color: aliceblue">Mobile::</label></td>
@@ -128,17 +101,19 @@
             </tr>
         </table>
     </form:form>
-<script>
-    $(document).ready(function(event) {
-        $("#countryId").change(function() {
 
+<script>
+
+    $(document).ready(function(event) {
+
+        $("#countryId").change(function() {
             $("#stateId").find('option').remove();
             $('<option>').val('').text('Choose...').appendTo("#stateId");
 
             $("#cityId").find('option').remove();
             $('<option>').val('').text('Choose...').appendTo("#cityId");
 
-            var countryId = $("#countryId").val();
+            let countryId = $("#countryId").val();
             $.ajax({
                 type : "GET",
                 url : "getStates?cid=" + countryId,
@@ -153,9 +128,9 @@
         $("#stateId").change(function() {
 
             $("#cityId").find('option').remove();
-            $('<option>').val('').text('-Select-').appendTo("#cityId");
+            $('<option>').val('').text('Choose...').appendTo("#cityId");
 
-            var stateId = $("#stateId").val();
+            let stateId = $("#stateId").val();
             $.ajax({
                 type : "GET",
                 url : "getCities?sid=" + stateId,
@@ -167,6 +142,19 @@
             });
         });
 
+        $("#userEmail").blur(function (event) {
+            $("#dupEmail").html("");
+            let emailValidator = $("#userEmail").val();
+            $.ajax({
+                url : 'validateEmail?email='+ emailValidator,
+                success :function (emailStatus) {
+                    if (emailStatus === 'Duplicate'){
+                        $("#dupEmail").html("Email is already registered");
+                        $("#userEmail").focus();
+                    }
+                }
+            });
+        });
     });
 
 </script>
