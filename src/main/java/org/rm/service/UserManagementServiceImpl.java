@@ -2,6 +2,8 @@ package org.rm.service;
 
 import org.rm.contants.PazzwordLength;
 import org.rm.contants.UserAccountStatus;
+import org.rm.domain.ForgotPazzword;
+import org.rm.domain.LoginUser;
 import org.rm.domain.UserAccount;
 import org.rm.entity.CityMasterEntity;
 import org.rm.entity.CountryMasterEntity;
@@ -12,6 +14,7 @@ import org.rm.repository.CountryMasterRepository;
 import org.rm.repository.StateMasterRepository;
 import org.rm.repository.UserAccountRepository;
 import org.rm.util.EmailUtils;
+import org.rm.util.MessageUtils;
 import org.rm.util.PazzwordGenerator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +46,10 @@ public class UserManagementServiceImpl implements UserManagementService{
     //Injecting EmailUtils into service
     @Autowired
     private EmailUtils emailUtils;
+
+    //Injecting MessageUtils into Service
+    @Autowired
+    private MessageUtils message;
 
     /**
      * getAllCountries() will interact with repository interface and retrieve all the countries from the database
@@ -134,5 +141,38 @@ public class UserManagementServiceImpl implements UserManagementService{
         return "Unique";
     }
 
+    @Override
+    public String isUserExist(LoginUser loginUser) {
+        UserAccountEntity userAccEntity = userRepo.findByUserEmailAndUserPwd(loginUser.getUserEmail(), loginUser.getPazzword());
+        if (userAccEntity != null){
+            if(String.valueOf(UserAccountStatus.UNLOCKED).equals(userAccEntity.getAccountStatus())){
+                return "VALID";
+            }else {
+                return "LOCKED";
+            }
+        }
+        return "INVALID";
+    }
+
+    @Override
+    public String passwordRecover(String email) {
+        boolean isSent = false;
+        String userMobile = null;
+        UserAccountEntity userEntity = userRepo.findByUserEmail(email);
+        if(userEntity != null){
+            if (userEntity.getAccountStatus().equals("UNLOCKED")){
+                userMobile = String.valueOf(userEntity.getUserMobile());
+                isSent = message.sendSMS(userMobile, userEntity.getUserPwd());
+                if(isSent){
+                    return userMobile;
+                }else {
+                    return "Not sent";
+                }
+            }else{
+                return "LOCKED";
+            }
+        }
+        return "Unique";
+    }
 
 }

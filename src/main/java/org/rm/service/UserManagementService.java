@@ -1,8 +1,6 @@
 package org.rm.service;
 
-import org.rm.domain.CityMaster;
-import org.rm.domain.StateMaster;
-import org.rm.domain.UserAccount;
+import org.rm.domain.*;
 
 import java.util.Map;
 
@@ -14,4 +12,6 @@ public interface UserManagementService {
     UserAccount isTempPwdValid(String email,String pazzword);
     boolean updateUserAccount(UserAccount userAccount);
     String findByEmail(String email);
+    String isUserExist(LoginUser loginUser);
+    String passwordRecover(String email);
 }
