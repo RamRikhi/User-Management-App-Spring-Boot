@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class MessageUtils {
     Logger logger = LoggerFactory.getLogger(MessageUtils.class);
-    private static final String AUTH_TOKEN = "256799e621a5b30eaef0c3691b974e2d";
-    private static final String ACCOUNT_SID = "AC65e53b7a2ebb523ecc44c200bbe38c9c";
+    private static final String AUTH_TOKEN = "";
+    private static final String ACCOUNT_SID = "";
     private static final String OWNER_PHONE = "+14842092841";
     public boolean sendSMS(String userPhone,String pazzword){
         logger.info("Enmaakjflafjalhfhalh");
